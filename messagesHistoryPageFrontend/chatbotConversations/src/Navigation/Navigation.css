@@ -1,0 +1,13 @@
+.sidenav{
+    height: 100%;
+    width: 20%;
+    background-color: rgb(201, 173, 173);
+    position: fixed;
+    overflow-x: hidden;
+    top: 0;
+    left: 0;
+}
+
+.sidenav ul {
+    list-style-type: none;
+}
