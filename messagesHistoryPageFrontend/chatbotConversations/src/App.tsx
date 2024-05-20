@@ -1,6 +1,7 @@
 
 import Navigation from "./Navigation/Navigation.tsx"
 import Footer from "./Footer/Footer.tsx"
+import Home from "./Home/Home.tsx"
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <div className="content-container">
         <main className="main-content">
           {/* Main content goes here */}
+          <Home></Home>
         </main>
         <Footer />
       </div>

@@ -114,7 +114,6 @@ exports.handler = async function useAssistant(event) {
         .getJsonObject()
     );
   } catch (error) {
-    console.log(error);
     await exports.send(
       apigwManagementApi,
       JSON.stringify(

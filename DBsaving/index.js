@@ -23,7 +23,7 @@ class Response {
 }
 
 function validateChatInfo(chatInfo) {
-  console.log(JSON.stringify(chatInfo));
+  // console.log(JSON.stringify(chatInfo));
   if (!chatInfo.UserId) {
     return new Response().addStatus(400).addMessage("No userId found");
   }
@@ -37,12 +37,11 @@ function validateChatInfo(chatInfo) {
     return new Response().addStatus(400).addMessage("Invalid chat rating type");
   }
   let messages = chatInfo.conversation;
-  for (let i = 0; i < messages.length; i++) {
-    const message = messages[i];
-    if (message.role == null || message.content == null) {
-      messages.splice(i, 1);
-    }
-  }
+  // console.log("Messages before: ", messages);
+  messages = messages.filter(
+    (message) => message.message.role != null && message.message.content != null
+  );
+  // console.log("Messages after: ", messages);
   chatInfo.conversation = messages;
   return chatInfo;
 }
@@ -52,11 +51,12 @@ exports.handler = async (request) => {
   //   console.log(typeof chatInfo);
   //   chatInfo = JSON.parse(chatInfo);
   let chatInfo = JSON.parse(request.body);
+  // console.log(chatInfo);
   let validation = validateChatInfo(chatInfo);
   if (validation.status == 400) {
-    console.log("bad");
-    console.log(chatInfo);
-    console.log(validation);
+    // console.log("bad");
+    // console.log(chatInfo);
+    // console.log(validation);
     return {
       statusCode: 400,
       headers: {
@@ -74,7 +74,7 @@ exports.handler = async (request) => {
       UserId: { S: chatInfo.UserId },
     },
     UpdateExpression:
-      "set lastSaved = :lastSaved, conversation = :conversation",
+      "set lastSaved = :lastSaved, conversation = :conversation, EVERYTHING = :EVERYTHING",
     ExpressionAttributeValues: {
       ":lastSaved": { S: chatInfo.lastSaved },
       ":conversation": {
@@ -90,11 +90,13 @@ exports.handler = async (request) => {
           },
         })),
       },
+      ":EVERYTHING": { S: "EVERYTHING" },
     },
     ReturnValues: "UPDATED_NEW",
   };
+  // console.log(JSON.stringify(chatInfo.conversation));
 
-  if (chatInfo.chatRating) {
+  if (chatInfo.chatRating != null) {
     params.UpdateExpression += ", chatRating = :chatRating";
     params.ExpressionAttributeValues[":chatRating"] = {
       N: chatInfo.chatRating.toString(),
@@ -108,11 +110,10 @@ exports.handler = async (request) => {
     };
   }
   try {
-    console.log("Putting item:", params);
-    console.log(params.Item);
+    // console.log("Putting item:", params);
     const data = await ddb.updateItem(params).promise();
     // throw new Error("test");
-    console.log("Success", data);
+    // console.log("Success", data);
     return {
       statusCode: 200,
       headers: {
@@ -127,7 +128,7 @@ exports.handler = async (request) => {
       ),
     };
   } catch (err) {
-    console.log("Error", err);
+    // console.log("Error", err);
     return {
       statusCode: 500,
       headers: {

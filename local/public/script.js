@@ -183,12 +183,15 @@ function handleStarterQuestion(button) {
 
 function showChatHistory() {
   chatHistory = localStorage.getItem(localStorageIdentifier);
-  console.log(chatHistory);
   let objectChatHistory = JSON.parse(chatHistory);
   let i = 0;
   for (i = 0; i < objectChatHistory.length; i++) {
     let chatLi;
     let msg = objectChatHistory[i].message;
+    if (!msg) {
+      localStorage.removeItem(localStorageIdentifier);
+      return;
+    }
     if (msg.role == roles.user) {
       chatLi = createChatLi(msg.content, "outgoing");
       addMessageElementToChat(chatLi);
@@ -249,7 +252,6 @@ function initiateWebSocketConnection() {
 }
 
 function closeChatbox() {
-  console.log("hallo");
   chatbox.classList.add("hide");
   chatInputDiv.classList.add("hide");
   feedbackDiv.classList.remove("hide");
@@ -272,21 +274,25 @@ function closeHandler() {
 }
 
 function saveChatConversation() {
+  if (!localStorage.getItem(localStorageIdentifier)) {
+    return;
+  }
   if (!localStorage.getItem(userIdIdentifier)) {
     initializeUserInformation();
   }
   let userInfo = JSON.parse(localStorage.getItem(userIdIdentifier));
   userInfo.lastSaved = new Date().toISOString();
-  console.log(userInfo.lastSaved);
   localStorage.setItem(userIdIdentifier, JSON.stringify(userInfo));
   chatHistory = JSON.parse(localStorage.getItem(localStorageIdentifier));
   const data = {
-    UserId: userInfo.userId,
+    UserId: userInfo.UserId,
     lastSaved: userInfo.lastSaved,
     conversation: chatHistory,
   };
   if (chatRating) {
     data.chatRating = chatRating;
+  } else {
+    data.chatRating = 0;
   }
   if (dislikeFeedback) {
     data.dislikeFeedback = dislikeFeedback;
@@ -348,7 +354,7 @@ closeBtn.addEventListener("click", () => {
 
 function initializeUserInformation() {
   let userInformation = {
-    userId: crypto.randomUUID(),
+    UserId: crypto.randomUUID(),
     lastSaved: new Date().toISOString(),
   };
   let stringifiedUserInfo = JSON.stringify(userInformation);
@@ -357,7 +363,7 @@ function initializeUserInformation() {
 
 chatbotToggler.addEventListener("click", () => {
   if (!document.body.classList.contains("show-chatbot")) {
-    if (!userInformation) {
+    if (!localStorage.getItem(userIdIdentifier)) {
       initializeUserInformation();
     }
     showStarterQuestions();

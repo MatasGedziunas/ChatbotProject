@@ -3,20 +3,29 @@
   line-height: 1.5;
   font-weight: 400;
   margin: 0;
+  padding: 0;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --navigation-width: 20%;
+  --small-font: 16px;
+  --smaller-font: 20px;
+  --bigger-font: 30px;
+  --big-font: 36px;
+  --secondary-color: rgb(201, 173, 173);
 }
 
 .app-container {
   display: flex;
-  height: 100vh;
+  height: 100vh; /* Full viewport height, adjust as needed */
+  width: 100%; /* Take full width of the viewport */
 }
 
 .content-container {
-  flex: 1; /* Takes up the remaining space */
+  flex: 1;
+  width: calc(100% - var(--navigation-width));
   display: flex;
   flex-direction: column; /* Stack main content and footer vertically */
 }
@@ -24,8 +33,10 @@
 .main-content {
   flex: 1; /* Takes up remaining space, pushes footer to bottom */
   display: flex;
-  align-items: center; /* Center content vertically */
-  justify-content: center; /* Center content horizontally */
+  /* align-items: center;  */
+  justify-content: center; 
+  width: inherit;
+  align-self: flex-end;
 }
 
 

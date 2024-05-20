@@ -10,7 +10,6 @@ const fetchFileFromS3 = async (bucketName, keyName) => {
 
 exports.handler = async (event) => {
   const bucketName = "chatbotiframe"; // Replace with your S3 bucket name
-
   try {
     // Fetch the HTML, CSS, and JavaScript contents from S3
     const htmlContent = await fetchFileFromS3(bucketName, "chatbot.html");
@@ -29,7 +28,7 @@ exports.handler = async (event) => {
       body: finalHtmlContent,
     };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify(
