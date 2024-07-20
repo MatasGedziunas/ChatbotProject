@@ -6,10 +6,6 @@ Hello! I am the chatbot developer for Simple Painting Store. Welcome to the repo
 
 It is possible to preview the application with this link: [https://j0mfnkb1fj.execute-api.us-east-1.amazonaws.com/](https://j0mfnkb1fj.execute-api.us-east-1.amazonaws.com/)
 
-## Developer Information
-- **GitHub Name:** MatasGedziunas
-- **Repository Owner:** MatasGedziunas
-
 ## Project Overview
 
 This project is designed to provide an interactive chatbot experience for users visiting the Simple Painting Store. The chatbot is built using HTML, CSS, and JavaScript, and it communicates with the ChatGPT API to provide intelligent responses to user queries.
