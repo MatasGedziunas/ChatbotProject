@@ -10,14 +10,6 @@ It is possible to preview the application with this link: [https://j0mfnkb1fj.ex
 
 This project is designed to provide an interactive chatbot experience for users visiting the Simple Painting Store. The chatbot is built using HTML, CSS, and JavaScript, and it communicates with the ChatGPT API to provide intelligent responses to user queries.
 
-## File Hosting
-
-The following files are hosted on AWS S3:
-- `chatbot.html`
-- `styles.css`
-- `script.js`
-- `instructions.txt`
-
 ## How It Works
 
 1. **Opening the Chatbot Interface:** 
@@ -34,7 +26,7 @@ The following files are hosted on AWS S3:
    - The system message, which includes information that ChatGPT should know, is contained in the `instructions.txt` file.
    
 5. **Message Storage:**
-   - Each message is saved in `localStorage`. We might switch this to IndexedDB in the future.
+   - Each message is saved in `localStorage`. Might switch this to IndexedDB in the future.
    - Whenever the user opens the chatbot, a unique identifier is generated and stored in `localStorage`.
 
 6. **User Feedback:**
